@@ -56,6 +56,7 @@ func displayFact() {
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
+	fmt.Println("-----------------------")
 	fmt.Println("FUN FACT")
 	io.Copy(os.Stdout, res.Body)
 	fmt.Println("")
@@ -74,6 +75,7 @@ func displayJoke() {
 
 	j := new(joke)
 	json.NewDecoder(res.Body).Decode(j)
+	fmt.Println("-----------------------")
 	fmt.Println("JOKE")
 	fmt.Println(j.Joke)
 
@@ -115,14 +117,20 @@ func playBlackjack() {
 	player.Hand = playingDeck.Deal(2)
 	dealer.Hand = playingDeck.Deal(2)
 
+	fmt.Println("-----------------------")
 	fmt.Println("BLACKJACK")
 	fmt.Println("Enter 1 to hit or 2 to stay")
 	fmt.Println("-----------------------")
 	player.PrintHand()
 
 	dealer.CalculateTotal()
-	if dealer.Total == 21 {
-		fmt.Println("Dealer has 21")
+	if dealer.Total >= 21 {
+		if dealer.Total > 21 {
+			fmt.Println("Dealer busted!")
+		} else {
+			fmt.Println("Dealer has 21!")
+		}
+
 		fmt.Printf("Play again? (Y/N): ")
 		var playAgain string
 		switch playAgain {
